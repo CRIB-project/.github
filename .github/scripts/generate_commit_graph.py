@@ -114,6 +114,7 @@ def generate_commit_graph():
     plt.tight_layout()
 
     plt.savefig(".github/scripts/commit_graph.png")
+    print("generate .github/scripts/commit_graph.png")
 
 
 if __name__ == "__main__":

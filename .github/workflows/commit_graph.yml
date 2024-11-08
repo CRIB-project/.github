@@ -33,5 +33,9 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .github/scripts/commit_graph.png
-          git commit -m "Update commit graph"
-          git push
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Update commit graph"
+            git push
+          else
+            echo "No changes to commit"
+          fi
