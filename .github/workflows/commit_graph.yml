@@ -25,7 +25,7 @@ jobs:
 
       - name: make commit graph
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_MADE_BY_OKAWA }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python .github/scripts/generate_commit_graph.py
 
       - name: push the image file

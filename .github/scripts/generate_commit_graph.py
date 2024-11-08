@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 
 # Get Access Token from the secrets environment and the organization name
-GITHUB_TOKEN = os.getenv("TOKEN_MADE_BY_OKAWA")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 ORG_NAME = "crib-project"
 
 # Base URL of the GitHub
