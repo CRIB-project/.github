@@ -1,0 +1,37 @@
+name: Update Commit Graph
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # run every Sunday
+  workflow_dispatch: # enable manual trigger
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout the repository
+        uses: actions/checkout@v4
+
+      - name: setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: install packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests matplotlib
+
+      - name: make commit graph
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_MADE_BY_OKAWA }}
+        run: python .github/scripts/generate_commit_graph.py
+
+      - name: push the image file
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .github/scripts/commit_graph.png
+          git commit -m "Update commit graph"
+          git push
