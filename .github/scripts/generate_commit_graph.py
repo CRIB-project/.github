@@ -45,6 +45,11 @@ def get_commit_counts_by_week(repo_name):
             "per_page": 100,
         }
         response = requests.get(url, headers=headers, params=params)
+        if response.status_code != 200:
+            print(
+                f"Error fetching commits for repo '{repo_name}': {response.status_code} - {response.text}"
+            )
+            break
         commits = response.json()
         if not commits:
             break
@@ -52,7 +57,6 @@ def get_commit_counts_by_week(repo_name):
         for commit in commits:
             commit_date = commit["commit"]["committer"]["date"]
             commit_week = datetime.strptime(commit_date, "%Y-%m-%dT%H:%M:%SZ")
-            # コミット日を週の開始日に丸める
             week_start = (commit_week - timedelta(days=commit_week.weekday())).strftime(
                 "%Y-%m-%d"
             )
@@ -72,7 +76,10 @@ def generate_commit_graph():
     url = f"{BASE_URL}/orgs/{ORG_NAME}/repos"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
-    repos = [repo["name"] for repo in response.json() if not repo["private"]]
+    if response.status_code != 200:
+        print(f"Error fetching repositories: {response.status_code} - {response.text}")
+        return
+    repos = [repo["name"] for repo in response.json() if not repo.get("private", True)]
 
     total_commit_counts = defaultdict(int, {week: 0 for week in weeks})  # initialize 0
     for repo in repos:
