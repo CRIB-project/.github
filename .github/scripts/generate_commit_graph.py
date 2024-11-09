@@ -23,8 +23,8 @@ def get_weekly_dates():
     weeks = []
     current = start_date
     while current <= end_date:
-        week_str = current.strftime("%Y-%m-%d")
-        weeks.append(week_str)
+        week_start = current - timedelta(days=current.weekday())
+        weeks.append(week_start.strftime("%Y-%m-%d"))
         # move to next week
         current += timedelta(days=7)
     return weeks
