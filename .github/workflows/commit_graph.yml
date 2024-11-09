@@ -2,7 +2,7 @@ name: Update Commit Graph
 
 on:
   schedule:
-    - cron: "0 0 * * 0" # run every Sunday
+    - cron: "0 2 * * *" # run every 02:00
   workflow_dispatch: # enable manual trigger
 
 jobs:

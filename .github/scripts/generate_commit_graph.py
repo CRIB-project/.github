@@ -99,6 +99,11 @@ def generate_commit_graph():
             month_labels.append("")
 
     # graph settings
+    plt.rcParams.update(
+        {
+            "font.family": "Liberation Sans",
+        }
+    )
     size = 4.0
     plt.figure(figsize=(1.618 * size, 1.0 * size))
     plt.bar(weeks, commit_counts, color="blue", alpha=0.3)
