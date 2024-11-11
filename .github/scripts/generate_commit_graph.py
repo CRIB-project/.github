@@ -55,6 +55,14 @@ def get_commit_counts_by_week(repo_name):
             break
 
         for commit in commits:
+            # Exclude commits from GitHub Actions
+            committer_name = commit["commit"]["committer"]["name"]
+            committer_email = commit["commit"]["committer"]["email"]
+            if (
+                committer_name == "github-actions[bot]"
+                or committer_email == "actions@github.com"
+            ):
+                continue
             commit_date = commit["commit"]["committer"]["date"]
             commit_week = datetime.strptime(commit_date, "%Y-%m-%dT%H:%M:%SZ")
             week_start = (commit_week - timedelta(days=commit_week.weekday())).strftime(
